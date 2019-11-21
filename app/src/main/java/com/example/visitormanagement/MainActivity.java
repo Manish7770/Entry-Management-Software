@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CommonData.visitordetails=new VisitorModel();
                 CommonData.selectedhost=new HostModel();
+                CommonData.flag=0;
                 Intent intent = new Intent(MainActivity.this, VisitorIn.class);
                 startActivity(intent);
             }
@@ -35,6 +36,9 @@ public class MainActivity extends AppCompatActivity {
         visitorout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CommonData.visitordetails=new VisitorModel();
+                CommonData.selectedhost=new HostModel();
+                CommonData.flag=1;
                 Intent intent = new Intent(MainActivity.this, VisitorOut.class);
                 startActivity(intent);
             }

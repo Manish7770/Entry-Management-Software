@@ -16,6 +16,7 @@ import com.example.visitormanagement.R;
 import com.example.visitormanagement.SelectHost;
 import com.example.visitormanagement.ViewHolder.HostViewHolder;
 import com.example.visitormanagement.VisitorIn;
+import com.example.visitormanagement.VisitorOut;
 
 import java.util.List;
 
@@ -43,7 +44,12 @@ public class HostViewAdapter extends RecyclerView.Adapter<HostViewHolder>{
             @Override
             public void onClick(View view, int positon, boolean isLongClick) {
                 CommonData.selectedhost=model;
-                Intent intent = new Intent(context, VisitorIn.class);
+                Intent intent;
+                if(CommonData.flag==0)
+                    intent = new Intent(context, VisitorIn.class);
+                else
+                    intent = new Intent(context, VisitorOut.class);
+
                 context.startActivity(intent);
             }
         });

@@ -12,6 +12,7 @@ public class CommonData {
 
     public static HostModel selectedhost = new HostModel();
     public static VisitorModel visitordetails = new VisitorModel();
+    public static int flag=0;
 
     public static String getDate(long time)
     {
