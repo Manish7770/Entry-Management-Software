@@ -157,7 +157,7 @@ public class VisitorIn extends AppCompatActivity {
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.child(md5email).exists()) {
                                                     mdialog.dismiss();
-                                                    long currentTime=System.currentTimeMillis();
+                                                    final long currentTime=System.currentTimeMillis();
                                                     String visitingkey=String.valueOf(currentTime);
                                                     VisitorModelOnly newentry=new VisitorModelOnly(name,emailid,phone, finalNewtoken);
                                                     host.child(md5email).child("Visitors").child(visitingkey).setValue(newentry);
@@ -186,7 +186,10 @@ public class VisitorIn extends AppCompatActivity {
                                                                 String[] arrnames2=name.split(" ");
                                                                 List toEmailList2 = Arrays.asList(emailid
                                                                         .split("\\s*,\\s*"));
-                                                                emailBody="Dear "+arrnames2[0]+",<br /><br />"+"    You have just checked-in "+CommonData.selectedhost.getAddress()+",<br />Token Number : "+ finalNewtoken1 +", use this while Check-out.<br />Host Name : "+hostname2+"<br />Host Contact Number : "+CommonData.selectedhost.getPhone()+"<br /><br />Thanks!";
+                                                                String date=CommonData.getDate(currentTime);
+                                                                String time=CommonData.getTime(currentTime);
+
+                                                                emailBody="Dear "+arrnames2[0]+",<br /><br />"+"    You have checked in at the "+CommonData.selectedhost.getAddress()+" on "+date+" at "+time+" ,<br />Token Number : "+ finalNewtoken1 +", use this while Check-out.<br />Host Name : "+hostname2+"<br />Host Contact Number : "+CommonData.selectedhost.getPhone()+"<br /><br />Thanks!";
                                                                 new SendMailTask(VisitorIn.this).execute(fromEmail[0],
                                                                         fromPassword[0], toEmailList2, emailSubject, emailBody);
 
