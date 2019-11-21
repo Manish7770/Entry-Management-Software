@@ -151,6 +151,7 @@ public class VisitorIn extends AppCompatActivity {
 
 
                                         final String finalNewtoken = newtoken;
+                                        final String finalNewtoken1 = newtoken;
                                         host.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -180,6 +181,15 @@ public class VisitorIn extends AppCompatActivity {
                                                                 String emailBody="Dear "+arrnames[0]+",<br /><br />"+"    You have a new Visitor <br />Name : "+name+"<br />Email-Id : "+emailid+"<br />Contact Number : "+phone+"<br /><br />Thanks!<br />";
                                                                 new SendMailTask(VisitorIn.this).execute(fromEmail[0],
                                                                         fromPassword[0], toEmailList, emailSubject, emailBody);
+
+                                                                emailSubject="Regarding Check In";
+                                                                String[] arrnames2=name.split(" ");
+                                                                List toEmailList2 = Arrays.asList(emailid
+                                                                        .split("\\s*,\\s*"));
+                                                                emailBody="Dear "+arrnames2[0]+",<br /><br />"+"    You have just checked-in "+CommonData.selectedhost.getAddress()+",<br />Token Number : "+ finalNewtoken1 +", use this while Check-out.<br />Host Name : "+hostname2+"<br />Host Contact Number : "+CommonData.selectedhost.getPhone()+"<br /><br />Thanks!";
+                                                                new SendMailTask(VisitorIn.this).execute(fromEmail[0],
+                                                                        fromPassword[0], toEmailList2, emailSubject, emailBody);
+
                                                                 Intent intent = new Intent(VisitorIn.this, MainActivity.class);
                                                                 startActivity(intent);
                                                             }
