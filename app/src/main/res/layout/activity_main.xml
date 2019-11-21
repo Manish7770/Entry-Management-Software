@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:background="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true">
+
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:id="@+id/login"
+                android:src="@drawable/login" />
+
+            <info.hoang8f.widget.FButton
+                android:id="@+id/visitorin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="VIsitor in"
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                app:cornerRadius="10dp"
+                app:fButtonColor="@color/colorPrimary"
+                app:shadowEnabled="true"
+                app:shadowHeight="1dp" />
+
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:id="@+id/logout"
+                android:layout_marginTop="80dp"
+                android:src="@drawable/logout" />
+
+            <info.hoang8f.widget.FButton
+                android:id="@+id/visitorout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="VIsitor Out"
+                android:textColor="@android:color/white"
+                android:textSize="17sp"
+                app:cornerRadius="10dp"
+                app:fButtonColor="@color/colorPrimary"
+                app:shadowEnabled="true"
+                app:shadowHeight="1dp" />
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
