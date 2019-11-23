@@ -3,7 +3,9 @@ package com.example.visitormanagement;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +24,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
@@ -39,6 +45,11 @@ public class VisitorIn extends AppCompatActivity {
     public TextView hostname;
     public ImageView search;
     public FButton visitinbutton;
+
+    String apiKey = "apikey=";
+    String message = "&message=";
+    String sender = "&sender=";
+    String numbers = "&numbers=";
 
     private String name,emailid,phone,hostname2;
 
@@ -193,6 +204,11 @@ public class VisitorIn extends AppCompatActivity {
                                                                 new SendMailTask(VisitorIn.this).execute(fromEmail[0],
                                                                         fromPassword[0], toEmailList2, emailSubject, emailBody);
 
+                                                                apiKey+=dataSnapshot.child("SmsAPI").getValue().toString();
+                                                                sender+=dataSnapshot.child("SenderName").getValue().toString();
+                                                                message+="Dear "+arrnames[0]+",\n\n"+"    You have a new Visitor \nName : "+name+"\nEmail-Id : "+emailid+"\nContact Number : "+phone+"\n\nThanks!\n";
+                                                                numbers+="91"+CommonData.selectedhost.getPhone();
+                                                                new sendSMS().execute();
                                                                 Intent intent = new Intent(VisitorIn.this, MainActivity.class);
                                                                 startActivity(intent);
                                                             }
@@ -290,4 +306,64 @@ public class VisitorIn extends AppCompatActivity {
         }
         return "";
     }
+
+    public class sendSMS extends AsyncTask {
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            try {
+
+                // Send data
+                HttpURLConnection conn = (HttpURLConnection) new URL("https://api.textlocal.in/send/?").openConnection();
+                String data = apiKey + numbers + message + sender;
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
+                conn.getOutputStream().write(data.getBytes("UTF-8"));
+                final BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                final StringBuffer stringBuffer = new StringBuffer();
+                String line;
+                while ((line = rd.readLine()) != null) {
+                    stringBuffer.append(line);
+                }
+                rd.close();
+
+                Log.i("Messtxt", stringBuffer.toString());
+            } catch (Exception e) {
+                System.out.println("Error SMS "+e);
+                Log.i("Messtxt","Error "+e);
+            }
+            //return null;
+
+            /**try {
+                // Construct data
+
+
+                // Send data
+                HttpURLConnection conn = (HttpURLConnection) new URL("https://api.textlocal.in/get_sender_names/?").openConnection();
+                String data = apiKey;
+                conn.setDoOutput(true);
+                conn.setRequestMethod("POST");
+                conn.setRequestProperty("Content-Length", Integer.toString(data.length()));
+                conn.getOutputStream().write(data.getBytes("UTF-8"));
+                final BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                final StringBuffer stringBuffer = new StringBuffer();
+                String line;
+                while ((line = rd.readLine()) != null) {
+                    stringBuffer.append(line);
+                }
+                rd.close();
+
+                Log.i("Messtxt",stringBuffer.toString());
+            } catch (Exception e) {
+                System.out.println("Error SMS "+e);
+                Log.i("Messtxt", "Error "+e);
+            }**/
+
+            return null;
+
+        }
+    }
 }
+
+

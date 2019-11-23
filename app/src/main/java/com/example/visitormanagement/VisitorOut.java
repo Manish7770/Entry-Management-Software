@@ -117,14 +117,16 @@ public class VisitorOut extends AppCompatActivity {
                                 {
                                     mdialog.dismiss();
                                     final long currentTime=System.currentTimeMillis();
-                                    String checkoutdate=CommonData.getDate(currentTime);
+                                    final String checkoutdate=CommonData.getDate(currentTime);
                                     final String checkouttime=CommonData.getTime(currentTime);
 
-                                    String checkindate=CommonData.getDate(checkintime[0]);
+                                    final String checkindate=CommonData.getDate(checkintime[0]);
                                     final String checkintime2=CommonData.getTime(checkintime[0]);
                                     String intimestamp=String.valueOf(checkintime[0]);
 
-                                    VisitedOutModel visited=new VisitedOutModel(CommonData.visitordetails.getName(),CommonData.visitordetails.getEmail(),CommonData.visitordetails.getPhone());
+                                    String checkout=checkoutdate+" "+checkouttime;
+
+                                    VisitedOutModel visited=new VisitedOutModel(CommonData.visitordetails.getName(),CommonData.visitordetails.getEmail(),CommonData.visitordetails.getPhone(),checkout);
                                     database.getReference("Visitors-Out").child(md5email).child("Visitors").child(intimestamp).setValue(visited);
                                     host.child(md5email).child("Visitors").child(intimestamp).removeValue();
 
@@ -143,7 +145,7 @@ public class VisitorOut extends AppCompatActivity {
                                                 fromPassword[0] =dataSnapshot.child("Frompass").getValue().toString();
                                                 String emailSubject="Regarding your Visit";
                                                 String[] arrnames=CommonData.visitordetails.getName().split(" ");
-                                                String emailBody="Dear "+arrnames[0]+",<br /><br />"+"    You have just checked out<br />Name : "+CommonData.visitordetails.getName()+"<br />Phone Number : "+CommonData.visitordetails.getPhone()+"<br />Check-in time : "+checkintime2+"<br />Check-out time : "+checkouttime+"<br />Host Name : "+CommonData.selectedhost.getName()+"<br />Visited Address : "+CommonData.selectedhost.getAddress()+"<br /><br />Thanks!";
+                                                String emailBody="Dear "+arrnames[0]+",<br /><br />"+"    You have just checked out<br />Name : "+CommonData.visitordetails.getName()+"<br />Phone Number : "+CommonData.visitordetails.getPhone()+"<br />Check-in : "+checkindate+" "+checkintime2+"<br />Check-out : "+checkoutdate+" "+checkouttime+"<br />Host Name : "+CommonData.selectedhost.getName()+"<br />Visited Address : "+CommonData.selectedhost.getAddress()+"<br /><br />Thanks!";
                                                 new SendMailTask(VisitorOut.this).execute(fromEmail[0],
                                                         fromPassword[0], toEmailList, emailSubject, emailBody);
                                                 Intent intent = new Intent(VisitorOut.this, MainActivity.class);

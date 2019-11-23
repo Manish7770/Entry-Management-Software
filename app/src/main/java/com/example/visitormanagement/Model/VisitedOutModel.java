@@ -3,15 +3,17 @@ package com.example.visitormanagement.Model;
 public class VisitedOutModel {
     private String Name,
             Email,
-            Phone;
+            Phone,
+            CheckOut;
 
     public VisitedOutModel() {
     }
 
-    public VisitedOutModel(String name, String email, String phone) {
+    public VisitedOutModel(String name, String email, String phone, String checkOut) {
         Name = name;
         Email = email;
         Phone = phone;
+        CheckOut = checkOut;
     }
 
     public String getName() {
@@ -36,5 +38,13 @@ public class VisitedOutModel {
 
     public void setPhone(String phone) {
         Phone = phone;
+    }
+
+    public String getCheckOut() {
+        return CheckOut;
+    }
+
+    public void setCheckOut(String checkOut) {
+        CheckOut = checkOut;
     }
 }
