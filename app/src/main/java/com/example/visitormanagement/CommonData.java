@@ -25,7 +25,7 @@ public class CommonData {
     {
         Calendar calendar=Calendar.getInstance(Locale.ENGLISH);
         calendar.setTimeInMillis(time);
-        StringBuilder time2=new StringBuilder(DateFormat.format("HH:mm",calendar).toString());
+        StringBuilder time2=new StringBuilder(DateFormat.format("HH:mm:ss",calendar).toString());
         return time2.toString();
     }
 

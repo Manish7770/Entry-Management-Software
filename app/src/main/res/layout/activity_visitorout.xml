@@ -10,7 +10,7 @@
         android:id="@+id/addressToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colornewPrimary"
         android:elevation="4dp"
         android:theme="@style/AppTheme.AppBarOverlay"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
@@ -31,13 +31,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Token Id *"
-                android:layout_marginLeft="8dp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Token Id "
+                    android:layout_marginLeft="8dp" />
+
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/red" />
+
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/token"
@@ -72,13 +87,28 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Select The Host *"
-                android:layout_marginLeft="8dp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select The Host "
+                    android:layout_marginLeft="8dp" />
+
+                <TextView
+                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textColor="@color/red" />
+
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -127,7 +157,7 @@
         android:textColor="@android:color/white"
         android:textSize="17sp"
         app:cornerRadius="4dp"
-        app:fButtonColor="@color/colorPrimary"
+        app:fButtonColor="@color/colornewPrimary"
         app:shadowEnabled="true"
         app:shadowHeight="1dp" />
 

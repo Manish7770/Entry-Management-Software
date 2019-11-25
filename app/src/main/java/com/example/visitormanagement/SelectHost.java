@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,6 +40,9 @@ public class SelectHost extends AppCompatActivity {
     HostViewAdapter hostadapter;
     List<HostModel> startlist;
 
+    ProgressBar progressBar;
+    CardView nohost;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +51,7 @@ public class SelectHost extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Select Host");
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerhost);
@@ -58,6 +64,11 @@ public class SelectHost extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         host = database.getReference("Hosts");
+
+        nohost=findViewById(R.id.nohost);
+        progressBar=findViewById(R.id.progressBar2);
+        progressBar.setVisibility(View.VISIBLE);
+        nohost.setVisibility(View.INVISIBLE);
 
         findhost=findViewById(R.id.findhost);
 
@@ -86,6 +97,13 @@ public class SelectHost extends AppCompatActivity {
                     startlist.add(host3);
                 }
 
+                if(startlist.isEmpty())
+                    nohost.setVisibility(View.VISIBLE);
+                else
+                    nohost.setVisibility(View.INVISIBLE);
+
+                progressBar.setVisibility(View.INVISIBLE);
+
                 hostadapter = new HostViewAdapter(SelectHost.this,startlist);
                 recyclerView.setAdapter(hostadapter);
             }
@@ -105,18 +123,41 @@ public class SelectHost extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(SelectHost.this, VisitorIn.class);
+        Intent intent;
+        if(CommonData.flag==0)
+            intent = new Intent(SelectHost.this, VisitorIn.class);
+        else
+            intent = new Intent(SelectHost.this, VisitorOut.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        Intent intent;
+        if(CommonData.flag==0)
+            intent = new Intent(SelectHost.this, VisitorIn.class);
+        else
+            intent = new Intent(SelectHost.this, VisitorOut.class);
+        startActivity(intent);
+        return true;
     }
 
     void filter(String text){
         List<HostModel> temp = new ArrayList();
         for(HostModel d: startlist){
             //or use .equal(text) with you want equal match
-            if((d.getName().toLowerCase()).contains(text.toLowerCase())){
+            if((d.getName().toLowerCase()).contains(text.toLowerCase())||(d.getEmail().toLowerCase()).contains(text.toLowerCase())||(d.getPhone().toLowerCase()).contains(text.toLowerCase())||(d.getAddress().toLowerCase()).contains(text.toLowerCase())){
                 temp.add(d);
             }
         }
+
+        if(temp.isEmpty())
+            nohost.setVisibility(View.VISIBLE);
+        else
+            nohost.setVisibility(View.INVISIBLE);
+
+        progressBar.setVisibility(View.INVISIBLE);
+
         hostadapter.updateList(temp);
     }
 
