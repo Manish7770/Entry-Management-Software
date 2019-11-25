@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -37,7 +38,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
 
     FirebaseDatabase database;
-    DatabaseReference visitorIn;
+    DatabaseReference visitorIn,visitorOut;
 
     public EditText searchbar;
 
@@ -49,6 +50,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     ProgressBar progressBar;
     CardView novisitor;
+
+    long visitin=0,visitout=0;
+    TextView numvisin,numvisout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         database = FirebaseDatabase.getInstance();
         visitorIn = database.getReference("Hosts");
+        visitorOut=database.getReference("Visitors-Out");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
@@ -80,6 +85,9 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         progressBar=findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.VISIBLE);
         novisitor.setVisibility(View.INVISIBLE);
+
+        numvisin=findViewById(R.id.numvisin);
+        numvisout=findViewById(R.id.numvisout);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -113,6 +121,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                 String today=CommonData.getDate(currentTime2);
                 startlist.clear();
                 startlist = new ArrayList();
+                visitin=0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren())
                 {
                     if(snapshot.child("Visitors").exists())
@@ -124,7 +133,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                             if(checkin.equals(today))
                             {
                                 checkin+=" "+CommonData.getTime(Long.parseLong(snapshot1.getKey()));
-
+                                visitin+=1;
                                 VisitorModel newvisitor=new VisitorModel();
                                 newvisitor.setHostName(snapshot.child("name").getValue().toString());
                                 newvisitor.setVisitorName(snapshot1.child("name").getValue().toString());
@@ -140,6 +149,8 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
                         }
                     }
                 }
+
+                numvisin.setText(String.valueOf(visitin));
 
                 Collections.sort(startlist, new Comparator<VisitorModel>() {
                     public int compare(VisitorModel c1, VisitorModel c2) {
@@ -165,6 +176,33 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
 
             }
         });
+
+        visitorOut.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                long currentTime2=System.currentTimeMillis();
+                String today=CommonData.getDate(currentTime2);
+                visitout=0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (snapshot.child("Visitors").exists()) {
+                        for (DataSnapshot snapshot1 : snapshot.child("Visitors").getChildren()) {
+                            String checkin = "";
+                            checkin += CommonData.getDate(Long.parseLong(snapshot1.getKey()));
+                            if (checkin.equals(today)) {
+                                visitout += 1;
+                            }
+                        }
+                    }
+                }
+
+                numvisout.setText(String.valueOf(visitout));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     @Override
