@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/Dashboard"
+            android:icon="@drawable/dashboard"
+            android:title="Dashboard" />
+        <item
+            android:id="@+id/visitorout"
+            android:icon="@drawable/ic_group_black_24dp"
+            android:title="Visitors Out" />
+
+        <item
+            android:id="@+id/allhost"
+            android:icon="@drawable/ic_group_black_24dp"
+            android:title="All Hosts" />
+
+        <item
+            android:id="@+id/newhost"
+            android:icon="@drawable/ic_person_add_black_24dp"
+            android:title="@string/register_new_host" />
+
+    </group>
+
+</menu>

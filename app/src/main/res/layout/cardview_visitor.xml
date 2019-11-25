@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="6dp"
+    android:layout_marginEnd="6dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/visitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="Visitor"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/colornewPrimary"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/host"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="Host"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="15dp"
+            android:textColor="@color/colornewPrimary"
+            android:textSize="16sp"
+            android:textAllCaps="true"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/visitorname"
+            android:layout_below="@id/visitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:text="Manish CHOUDHARY"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/colorlight"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/hostname"
+            android:layout_below="@id/visitor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_alignParentEnd="true"
+            android:text="Manish CHOUDHARY"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="15dp"
+            android:textColor="@color/colorlight"
+            android:textStyle="bold"
+            android:textSize="13sp"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/visitoremailid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/visitorname"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="6dp"
+            android:text="17ucs087@lnmiit.ac.in"
+            android:textColor="@color/gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/checkintime"
+            android:layout_below="@id/visitorname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_alignParentEnd="true"
+            android:text="12-10-2019 13:23:59"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="15dp"
+            android:textColor="@color/gray"
+            android:textSize="13sp"
+            android:textAllCaps="true" />
+
+        <TextView
+            android:id="@+id/visitorcontact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/visitoremailid"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="6dp"
+            android:text="7588097870"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/checkouttime"
+            android:layout_below="@id/visitoremailid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:layout_alignParentEnd="true"
+            android:text="12-10-2019 13:23:59"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="15dp"
+            android:textColor="@color/gray"
+            android:textSize="13sp"
+            android:textAllCaps="true" />
+
+
+
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>
