@@ -112,6 +112,8 @@ public class VisitorIn extends AppCompatActivity {
         mdialog = new ProgressDialog(VisitorIn.this);
         mdialog.setMessage("Please Wait...");
 
+        final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
         visitinbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,132 +123,139 @@ public class VisitorIn extends AppCompatActivity {
                 if ((!(fullname.getText().toString().isEmpty())) && (!(fullname.getText().toString().equals("")))) {
 
                         if ((!(email.getText().toString().isEmpty())) && (!(email.getText().toString().equals("")))) {
+                            if(email.getText().toString().trim().matches(emailPattern))
+                            {
+                                if ((!(phonenumber.getText().toString().isEmpty())) && (!(phonenumber.getText().toString().equals("")))) {
+                                    if (phonenumber.getText().toString().length() == 10) {
 
-                            if ((!(phonenumber.getText().toString().isEmpty())) && (!(phonenumber.getText().toString().equals("")))) {
-                                if (phonenumber.getText().toString().length() == 10) {
+                                        if((!(hostname.getText().toString().isEmpty())) && (!(hostname.getText().toString().equals("")))) {
 
-                                    if((!(hostname.getText().toString().isEmpty())) && (!(hostname.getText().toString().equals("")))) {
+                                            name=fullname.getText().toString();
+                                            emailid=email.getText().toString();
+                                            phone=phonenumber.getText().toString();
+                                            hostname2=hostname.getText().toString();
+                                            final String md5email= md5(CommonData.selectedhost.getEmail());
 
-                                        name=fullname.getText().toString();
-                                        emailid=email.getText().toString();
-                                        phone=phonenumber.getText().toString();
-                                        hostname2=hostname.getText().toString();
-                                        final String md5email= md5(CommonData.selectedhost.getEmail());
+                                            final HashMap<String,Integer> map=new HashMap<>();
 
-                                        final HashMap<String,Integer> map=new HashMap<>();
-
-                                        host.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                for(DataSnapshot snapshot:dataSnapshot.getChildren())
-                                                {
-                                                    for(DataSnapshot snapshot1:snapshot.child("Visitors").getChildren())
+                                            host.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    for(DataSnapshot snapshot:dataSnapshot.getChildren())
                                                     {
-                                                        String usedtoken=snapshot1.child("token").getValue().toString();
-                                                        map.put(usedtoken,1);
+                                                        for(DataSnapshot snapshot1:snapshot.child("Visitors").getChildren())
+                                                        {
+                                                            String usedtoken=snapshot1.child("token").getValue().toString();
+                                                            map.put(usedtoken,1);
+                                                        }
                                                     }
                                                 }
-                                            }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                            }
-                                        });
-
-                                        String newtoken=String.valueOf((long)(Math.floor(Math.random()*90000) + 10000));
-                                        while (map.containsKey(newtoken))
-                                        {
-                                            newtoken=String.valueOf((long)(Math.floor(Math.random()*90000) + 10000));
-                                        }
-
-
-                                        final String finalNewtoken = newtoken;
-                                        final String finalNewtoken1 = newtoken;
-                                        host.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                if (dataSnapshot.child(md5email).exists()) {
-                                                    mdialog.dismiss();
-                                                    final long currentTime=System.currentTimeMillis();
-                                                    String visitingkey=String.valueOf(currentTime);
-                                                    VisitorModelOnly newentry=new VisitorModelOnly(name,emailid,phone, finalNewtoken);
-                                                    host.child(md5email).child("Visitors").child(visitingkey).setValue(newentry);
-                                                    Toast.makeText(VisitorIn.this, "Your entry has been recorded", Toast.LENGTH_LONG).show();
-
-                                                    final String[] fromEmail = new String[1];
-                                                    final String[] fromPassword = new String[1];
-
-                                                    final List toEmailList = Arrays.asList(CommonData.selectedhost.getEmail()
-                                                            .split("\\s*,\\s*"));
-
-                                                    emailprovider.addListenerForSingleValueEvent(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                                            if(dataSnapshot.exists())
-                                                            {
-                                                                fromEmail[0] =dataSnapshot.child("FromMail").getValue().toString();
-                                                                fromPassword[0] =dataSnapshot.child("Frompass").getValue().toString();
-                                                                String emailSubject="Regarding New Visitor";
-                                                                String[] arrnames=hostname2.split(" ");
-                                                                String emailBody="Dear "+arrnames[0]+",<br /><br />"+"    You have a new Visitor <br />Name : "+name+"<br />Email-Id : "+emailid+"<br />Contact Number : "+phone+"<br /><br />Thanks!<br />";
-                                                                new SendMailTask(VisitorIn.this).execute(fromEmail[0],
-                                                                        fromPassword[0], toEmailList, emailSubject, emailBody);
-
-                                                                emailSubject="Regarding Check In";
-                                                                String[] arrnames2=name.split(" ");
-                                                                List toEmailList2 = Arrays.asList(emailid
-                                                                        .split("\\s*,\\s*"));
-                                                                String date=CommonData.getDate(currentTime);
-                                                                String time=CommonData.getTime(currentTime);
-
-                                                                emailBody="Dear "+arrnames2[0]+",<br /><br />"+"    You have checked in at the "+CommonData.selectedhost.getAddress()+" on "+date+" at "+time+" ,<br />Token Number : "+ finalNewtoken1 +", use this while Check-out.<br />Host Name : "+hostname2+"<br />Host Contact Number : "+CommonData.selectedhost.getPhone()+"<br /><br />Thanks!";
-                                                                new SendMailTask(VisitorIn.this).execute(fromEmail[0],
-                                                                        fromPassword[0], toEmailList2, emailSubject, emailBody);
-
-                                                                apiKey+=dataSnapshot.child("SmsAPI").getValue().toString();
-                                                                sender+=dataSnapshot.child("SenderName").getValue().toString();
-                                                                message+="Dear "+arrnames[0]+",\n\n"+"    You have a new Visitor \nName : "+name+"\nEmail-Id : "+emailid+"\nContact Number : "+phone+"\n\nThanks!\n";
-                                                                numbers+="91"+CommonData.selectedhost.getPhone();
-                                                                new sendSMS().execute();
-                                                                Intent intent = new Intent(VisitorIn.this, MainActivity.class);
-                                                                startActivity(intent);
-                                                            }
-                                                        }
-
-                                                        @Override
-                                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                                                        }
-                                                    });
-
-                                                } else {
-                                                    mdialog.dismiss();
-                                                    Toast.makeText(VisitorIn.this, "Selected Host doesn't exists in the database", Toast.LENGTH_LONG).show();
                                                 }
+                                            });
+
+                                            String newtoken=String.valueOf((long)(Math.floor(Math.random()*90000) + 10000));
+                                            while (map.containsKey(newtoken))
+                                            {
+                                                newtoken=String.valueOf((long)(Math.floor(Math.random()*90000) + 10000));
                                             }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            }
-                                        });
+
+                                            final String finalNewtoken = newtoken;
+                                            final String finalNewtoken1 = newtoken;
+                                            host.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                @Override
+                                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                    if (dataSnapshot.child(md5email).exists()) {
+                                                        mdialog.dismiss();
+                                                        final long currentTime=System.currentTimeMillis();
+                                                        String visitingkey=String.valueOf(currentTime);
+                                                        VisitorModelOnly newentry=new VisitorModelOnly(name,emailid,phone, finalNewtoken);
+                                                        host.child(md5email).child("Visitors").child(visitingkey).setValue(newentry);
+                                                        Toast.makeText(VisitorIn.this, "Your entry has been recorded", Toast.LENGTH_LONG).show();
+
+                                                        final String[] fromEmail = new String[1];
+                                                        final String[] fromPassword = new String[1];
+
+                                                        final List toEmailList = Arrays.asList(CommonData.selectedhost.getEmail()
+                                                                .split("\\s*,\\s*"));
+
+                                                        emailprovider.addListenerForSingleValueEvent(new ValueEventListener() {
+                                                            @Override
+                                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                                if(dataSnapshot.exists())
+                                                                {
+                                                                    fromEmail[0] =dataSnapshot.child("FromMail").getValue().toString();
+                                                                    fromPassword[0] =dataSnapshot.child("Frompass").getValue().toString();
+                                                                    String emailSubject="Regarding New Visitor";
+                                                                    String[] arrnames=hostname2.split(" ");
+                                                                    String emailBody="Dear "+arrnames[0]+",<br /><br />"+"    You have a new Visitor <br />Name : "+name+"<br />Email-Id : "+emailid+"<br />Contact Number : "+phone+"<br /><br />Thanks!<br />";
+                                                                    new SendMailTask(VisitorIn.this).execute(fromEmail[0],
+                                                                            fromPassword[0], toEmailList, emailSubject, emailBody);
+
+                                                                    emailSubject="Regarding Check In";
+                                                                    String[] arrnames2=name.split(" ");
+                                                                    List toEmailList2 = Arrays.asList(emailid
+                                                                            .split("\\s*,\\s*"));
+                                                                    String date=CommonData.getDate(currentTime);
+                                                                    String time=CommonData.getTime(currentTime);
+
+                                                                    emailBody="Dear "+arrnames2[0]+",<br /><br />"+"    You have checked in at the "+CommonData.selectedhost.getAddress()+" on "+date+" at "+time+" ,<br />Token Number : "+ finalNewtoken1 +", use this while Check-out.<br />Host Name : "+hostname2+"<br />Host Contact Number : "+CommonData.selectedhost.getPhone()+"<br /><br />Thanks!";
+                                                                    new SendMailTask(VisitorIn.this).execute(fromEmail[0],
+                                                                            fromPassword[0], toEmailList2, emailSubject, emailBody);
+
+                                                                    apiKey+=dataSnapshot.child("SmsAPI").getValue().toString();
+                                                                    sender+=dataSnapshot.child("SenderName").getValue().toString();
+                                                                    message+="Dear "+arrnames[0]+",\n\n"+"    You have a new Visitor \nName : "+name+"\nEmail-Id : "+emailid+"\nContact Number : "+phone+"\n\nThanks!\n";
+                                                                    numbers+="91"+CommonData.selectedhost.getPhone();
+                                                                    new sendSMS().execute();
+                                                                    Intent intent = new Intent(VisitorIn.this, MainActivity.class);
+                                                                    startActivity(intent);
+                                                                }
+                                                            }
+
+                                                            @Override
+                                                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                                            }
+                                                        });
+
+                                                    } else {
+                                                        mdialog.dismiss();
+                                                        Toast.makeText(VisitorIn.this, "Selected Host doesn't exists in the database", Toast.LENGTH_LONG).show();
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                                }
+                                            });
+                                        }
+                                        else
+                                        {
+                                            mdialog.dismiss();
+                                            Toast.makeText(VisitorIn.this, "Select your Host", Toast.LENGTH_LONG).show();
+                                        }
                                     }
                                     else
                                     {
                                         mdialog.dismiss();
-                                        Toast.makeText(VisitorIn.this, "Select your Host", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(VisitorIn.this, "Enter 10 digit Phone Number", Toast.LENGTH_LONG).show();
                                     }
                                 }
                                 else
                                 {
                                     mdialog.dismiss();
-                                    Toast.makeText(VisitorIn.this, "Enter 10 digit Phone Number", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(VisitorIn.this, "Enter your Phone Number", Toast.LENGTH_LONG).show();
                                 }
                             }
                             else
                             {
                                 mdialog.dismiss();
-                                Toast.makeText(VisitorIn.this, "Enter your Phone Number", Toast.LENGTH_LONG).show();
+                                Toast.makeText(VisitorIn.this, "Invalid email address", Toast.LENGTH_LONG).show();
                             }
                         }
                         else {
