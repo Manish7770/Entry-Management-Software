@@ -55,6 +55,9 @@ public class RegisterHost extends AppCompatActivity {
         mdialog = new ProgressDialog(RegisterHost.this);
         mdialog.setMessage("Please Wait...");
         mdialog.dismiss();
+
+        final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,46 +68,53 @@ public class RegisterHost extends AppCompatActivity {
                     if ((!(address.getText().toString().isEmpty())) && (!(address.getText().toString().equals("")))) {
 
                         if ((!(email.getText().toString().isEmpty())) && (!(email.getText().toString().equals("")))) {
+                            if(email.getText().toString().trim().matches(emailPattern))
+                            {
+                                if ((!(phonenumber.getText().toString().isEmpty())) && (!(phonenumber.getText().toString().equals("")))) {
+                                    if (phonenumber.getText().toString().length() == 10) {
+                                        final String email2=email.getText().toString().trim();
+                                        final String md5email= md5(email2);
+                                        host.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                                if(dataSnapshot.child(md5email).exists())
+                                                {
+                                                    mdialog.dismiss();
+                                                    Toast.makeText(RegisterHost.this, "Host already exists in the database", Toast.LENGTH_LONG).show();
 
-                            if ((!(phonenumber.getText().toString().isEmpty())) && (!(phonenumber.getText().toString().equals("")))) {
-                                if (phonenumber.getText().toString().length() == 10) {
-                                    final String email2=email.getText().toString().trim();
-                                    final String md5email= md5(email2);
-                                    host.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            if(dataSnapshot.child(md5email).exists())
-                                            {
-                                                mdialog.dismiss();
-                                                Toast.makeText(RegisterHost.this, "Host already exists in the database", Toast.LENGTH_LONG).show();
-
+                                                }
+                                                else
+                                                {
+                                                    NewHostModel newmodel=new NewHostModel(fullname.getText().toString(),email2,address.getText().toString(),phonenumber.getText().toString());
+                                                    host.child(md5email).setValue(newmodel);
+                                                    visitorOut.child(md5email).setValue(newmodel);
+                                                    mdialog.dismiss();
+                                                    Toast.makeText(RegisterHost.this, "Host registered in the database", Toast.LENGTH_LONG).show();
+                                                    Intent intent = new Intent(RegisterHost.this, Dashboard.class);
+                                                    startActivity(intent);
+                                                }
                                             }
-                                            else
-                                            {
-                                                NewHostModel newmodel=new NewHostModel(fullname.getText().toString(),email2,address.getText().toString(),phonenumber.getText().toString());
-                                                host.child(md5email).setValue(newmodel);
-                                                visitorOut.child(md5email).setValue(newmodel);
-                                                mdialog.dismiss();
-                                                Toast.makeText(RegisterHost.this, "Host registered in the database", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent(RegisterHost.this, Dashboard.class);
-                                                startActivity(intent);
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError databaseError) {
                                             }
-                                        }
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                        }
-                                    });
+                                        });
+                                    }
+                                    else
+                                    {
+                                        mdialog.dismiss();
+                                        Toast.makeText(RegisterHost.this, "Enter 10 digit Phone Number", Toast.LENGTH_LONG).show();
+                                    }
                                 }
                                 else
                                 {
                                     mdialog.dismiss();
-                                    Toast.makeText(RegisterHost.this, "Enter 10 digit Phone Number", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(RegisterHost.this, "Enter your Phone Number", Toast.LENGTH_LONG).show();
                                 }
                             }
                             else
                             {
                                 mdialog.dismiss();
-                                Toast.makeText(RegisterHost.this, "Enter your Phone Number", Toast.LENGTH_LONG).show();
+                                Toast.makeText(RegisterHost.this, "Invalid email address", Toast.LENGTH_LONG).show();
                             }
                         }
                         else
