@@ -29,17 +29,17 @@ import java.util.List;
 
 import info.hoang8f.widget.FButton;
 
+import static com.example.visitormanagement.VisitorIn.md5;
+
 public class VisitorOut extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference host,emailprovider;
 
     public EditText tokenId;
-    public TextView hostname;
-    public ImageView search;
     public FButton visitoutbutton;
 
-    private String tokennumber,hostname2;
+    private String tokennumber;
 
     ProgressDialog mdialog;
 
@@ -54,32 +54,14 @@ public class VisitorOut extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tokenId=findViewById(R.id.token);
-        hostname=findViewById(R.id.hostname);
-        search=findViewById(R.id.search);
         visitoutbutton=findViewById(R.id.visitoroutbutton);
 
         tokennumber=CommonData.visitordetails.getToken();
-        hostname2=CommonData.selectedhost.getName();
         tokenId.setText(tokennumber);
-        hostname.setText(hostname2);
 
         database = FirebaseDatabase.getInstance();
         host = database.getReference("Hosts");
         emailprovider=database.getReference("Mail-Provider");
-
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tokennumber=tokenId.getText().toString();
-
-                if ((!(tokennumber.isEmpty())) && (!(tokennumber.equals("")))) {
-                    CommonData.visitordetails.setToken(tokennumber);
-                }
-
-                Intent intent = new Intent(VisitorOut.this, SelectHost.class);
-                startActivity(intent);
-            }
-        });
 
         mdialog = new ProgressDialog(VisitorOut.this);
         mdialog.setMessage("Please Wait...");
@@ -91,30 +73,36 @@ public class VisitorOut extends AppCompatActivity {
                 mdialog.show();
                 mdialog.setCanceledOnTouchOutside(false);
                 if ((!(tokenId.getText().toString().isEmpty())) && (!(tokenId.getText().toString().equals("")))) {
-                    if ((!(hostname.getText().toString().isEmpty())) && (!(hostname.getText().toString().equals("")))) {
                         tokennumber=tokenId.getText().toString();
-                        hostname2=hostname.getText().toString();
-                        final String md5email= md5(CommonData.selectedhost.getEmail());
+
+
                         final int[] found = {0};
                         final long[] checkintime = new long[1];
-                        host.child(md5email).addListenerForSingleValueEvent(new ValueEventListener() {
+                        host.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                    for(DataSnapshot snapshot1:dataSnapshot.child("Visitors").getChildren())
-                                    {
-                                        String usedtoken=snapshot1.child("token").getValue().toString();
-                                        if(usedtoken.equals(tokennumber))
-                                        {
+                                for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
+                                    for (DataSnapshot snapshot1 : snapshot.child("Visitors").getChildren()) {
+                                        String usedtoken = snapshot1.child("token").getValue().toString();
+                                        if (usedtoken.equals(tokennumber)) {
                                             CommonData.visitordetails.setName(snapshot1.child("name").getValue().toString());
                                             CommonData.visitordetails.setPhone(snapshot1.child("phone").getValue().toString());
                                             CommonData.visitordetails.setEmail(snapshot1.child("email").getValue().toString());
-                                            checkintime[0] =Long.parseLong(snapshot1.getKey());
-                                            found[0]=1;
+                                            checkintime[0] = Long.parseLong(snapshot1.getKey());
+                                            CommonData.selectedhost.setName(snapshot.child("name").getValue().toString());
+                                            CommonData.selectedhost.setEmail(snapshot.child("email").getValue().toString());
+                                            CommonData.selectedhost.setAddress(snapshot.child("address").getValue().toString());
+                                            CommonData.selectedhost.setPhone(snapshot.child("phone").getValue().toString());
+
+                                            found[0] = 1;
+                                            break;
                                         }
                                     }
-
+                                }
+                                final String md5email;
                                 if(found[0]==1)
                                 {
+                                    md5email = md5(CommonData.selectedhost.getEmail());
                                     mdialog.dismiss();
                                     final long currentTime=System.currentTimeMillis();
                                     final String checkoutdate=CommonData.getDate(currentTime);
@@ -174,11 +162,6 @@ public class VisitorOut extends AppCompatActivity {
 
                             }
                         });
-
-                    } else {
-                        mdialog.dismiss();
-                        Toast.makeText(VisitorOut.this, "Select your Host", Toast.LENGTH_LONG).show();
-                    }
                 } else {
                     mdialog.dismiss();
                     Toast.makeText(VisitorOut.this, "Enter the Token Number", Toast.LENGTH_LONG).show();

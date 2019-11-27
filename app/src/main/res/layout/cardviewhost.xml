@@ -50,6 +50,19 @@
             android:textColor="@color/gray"
             android:textSize="15sp" />
 
+        <TextView
+            android:id="@+id/available"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentEnd="true"
+            android:text="Available"
+            android:textColor="@color/green"
+            android:textSize="13sp"
+            />
+
         <ImageView
             android:id="@+id/phoneicon"
             android:layout_width="wrap_content"

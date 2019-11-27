@@ -6,12 +6,21 @@ public class HostModel {
             Email,
             Address,
             Phone;
+    private int available;
 
     public HostModel() {
         Name="";
         Email="";
         Address="";
         Phone="";
+    }
+
+    public HostModel(String name, String email, String address, String phone, int available) {
+        Name = name;
+        Email = email;
+        Address = address;
+        Phone = phone;
+        this.available = available;
     }
 
     public HostModel(String name, String email, String address, String phone) {
@@ -53,4 +62,11 @@ public class HostModel {
         Phone = phone;
     }
 
+    public int getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(int available) {
+        this.available = available;
+    }
 }

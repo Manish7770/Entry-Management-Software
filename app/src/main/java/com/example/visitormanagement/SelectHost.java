@@ -39,6 +39,7 @@ public class SelectHost extends AppCompatActivity {
 
     HostViewAdapter hostadapter;
     List<HostModel> startlist;
+    List<HostModel> newlist;
 
     ProgressBar progressBar;
     CardView nohost;
@@ -87,13 +88,17 @@ public class SelectHost extends AppCompatActivity {
             }
         });
 
-         startlist = new ArrayList();
+        startlist = new ArrayList();
 
         host.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     HostModel host3 = snapshot.getValue(HostModel.class);
+                    if(snapshot.child("Visitors").exists())
+                        host3.setAvailable(0);
+                    else
+                        host3.setAvailable(1);
                     startlist.add(host3);
                 }
 
@@ -106,6 +111,32 @@ public class SelectHost extends AppCompatActivity {
 
                 hostadapter = new HostViewAdapter(SelectHost.this,startlist);
                 recyclerView.setAdapter(hostadapter);
+
+                host.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        newlist=new ArrayList();
+
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            HostModel host3 = snapshot.getValue(HostModel.class);
+                            if(snapshot.child("Visitors").exists())
+                                host3.setAvailable(0);
+                            else
+                                host3.setAvailable(1);
+                            newlist.add(host3);
+                        }
+
+                        startlist=newlist;
+                        String searched=findhost.getText().toString();
+                        filter(searched);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override

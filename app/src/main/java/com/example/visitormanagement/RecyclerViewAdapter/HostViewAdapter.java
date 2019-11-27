@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,23 +35,40 @@ public class HostViewAdapter extends RecyclerView.Adapter<HostViewHolder>{
         return new HostViewHolder(itemView);
     }
     @Override
-    public void onBindViewHolder(HostViewHolder holder, int position) {
+    public void onBindViewHolder(final HostViewHolder holder, int position) {
         final HostModel model = displayedList.get(position);
         holder.name.setText(model.getName());
         holder.email.setText(model.getEmail());
         holder.address.setText(model.getAddress());
         holder.phone.setText(model.getPhone());
+        if(model.getAvailable()==0)
+        {
+            holder.available.setText("Not Available");
+            holder.available.setTextColor( context.getResources().getColor(R.color.red));
+        }
+        else
+        {
+            holder.available.setText("Available");
+            holder.available.setTextColor( context.getResources().getColor(R.color.green));
+        }
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onClick(View view, int positon, boolean isLongClick) {
-                CommonData.selectedhost=model;
-                Intent intent;
-                if(CommonData.flag==0)
-                    intent = new Intent(context, VisitorIn.class);
-                else
-                    intent = new Intent(context, VisitorOut.class);
 
-                context.startActivity(intent);
+                if(holder.available.getText().toString().equals("Available"))
+                {
+                    CommonData.selectedhost=model;
+                    Intent intent;
+                    if(CommonData.flag==0)
+                        intent = new Intent(context, VisitorIn.class);
+                    else
+                        intent = new Intent(context, VisitorOut.class);
+
+                    context.startActivity(intent);
+                }
+                else
+                    Toast.makeText(context, "The Host is not available", Toast.LENGTH_LONG).show();
+
             }
         });
     }

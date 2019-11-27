@@ -9,7 +9,7 @@ import com.example.visitormanagement.R;
 
 public class HostViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView name,phone,email,address;
+    public TextView name,phone,email,address,available;
     private ItemClickListener itemClickListener;
 
     public HostViewHolder(View itemView) {
@@ -19,6 +19,7 @@ public class HostViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         phone=(TextView) itemView.findViewById(R.id.contact);
         email=(TextView) itemView.findViewById(R.id.emailid);
         address=(TextView) itemView.findViewById(R.id.address2);
+        available=(TextView) itemView.findViewById(R.id.available);
 
         itemView.setOnClickListener(this);
     }
