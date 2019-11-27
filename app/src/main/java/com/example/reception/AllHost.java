@@ -20,9 +20,12 @@ import com.example.reception.Model.NewHostModel;
 import com.example.reception.ViewHolder.HostViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class AllHost extends AppCompatActivity {
 
@@ -94,6 +97,26 @@ public class AllHost extends AppCompatActivity {
                 holder.address.setText(model.getAddress());
                 holder.email.setText(model.getEmail());
                 holder.phone.setText(model.getPhone());
+                adapter.getRef(position).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.child("Visitors").exists())
+                        {
+                            holder.available.setText("Not Available");
+                            holder.available.setTextColor(getResources().getColor(R.color.red));
+                        }
+                        else
+                        {
+                            holder.available.setText("Available");
+                            holder.available.setTextColor( getResources().getColor(R.color.green));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
 
             }
         };

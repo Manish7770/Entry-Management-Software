@@ -10,7 +10,7 @@ import com.example.reception.R;
 
 public class HostViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView name,phone,email,address;
+    public TextView name,phone,email,address,available;
 
     public HostViewHolder(View itemView) {
         super(itemView);
@@ -20,6 +20,7 @@ public class HostViewHolder extends RecyclerView.ViewHolder {
         phone=(TextView) itemView.findViewById(R.id.contact);
         email=(TextView) itemView.findViewById(R.id.emailid);
         address=(TextView) itemView.findViewById(R.id.address2);
+        available=(TextView) itemView.findViewById(R.id.available);
     }
 
 }

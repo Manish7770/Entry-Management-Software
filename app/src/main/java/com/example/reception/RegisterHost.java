@@ -26,7 +26,7 @@ import info.hoang8f.widget.FButton;
 public class RegisterHost extends AppCompatActivity {
 
     FirebaseDatabase database;
-    DatabaseReference host;
+    DatabaseReference host,visitorOut;
 
     public EditText fullname,address,email,phonenumber;
     public FButton register;
@@ -44,6 +44,7 @@ public class RegisterHost extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         host = database.getReference("Hosts");
+        visitorOut = database.getReference("Visitors-Out");
 
         email=findViewById(R.id.email);
         address=findViewById(R.id.address);
@@ -82,6 +83,7 @@ public class RegisterHost extends AppCompatActivity {
                                             {
                                                 NewHostModel newmodel=new NewHostModel(fullname.getText().toString(),email2,address.getText().toString(),phonenumber.getText().toString());
                                                 host.child(md5email).setValue(newmodel);
+                                                visitorOut.child(md5email).setValue(newmodel);
                                                 mdialog.dismiss();
                                                 Toast.makeText(RegisterHost.this, "Host registered in the database", Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent(RegisterHost.this, Dashboard.class);
