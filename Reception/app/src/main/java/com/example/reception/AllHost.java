@@ -30,7 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 public class AllHost extends AppCompatActivity {
 
     FirebaseDatabase database;
-    DatabaseReference host;
+    DatabaseReference visitorIn;
     FirebaseRecyclerAdapter adapter;
 
     RecyclerView recyclerView;
@@ -52,7 +52,7 @@ public class AllHost extends AppCompatActivity {
         this.getWindow().setStatusBarColor(getResources().getColor(R.color.colorlight)  );
 
         database = FirebaseDatabase.getInstance();
-        host = database.getReference("Hosts");
+        visitorIn = database.getReference("Visitors-In");
 
         recyclerView=(RecyclerView)findViewById(R.id.recyclerhost);
         recyclerView.setHasFixedSize(true);
@@ -71,7 +71,7 @@ public class AllHost extends AppCompatActivity {
 
     private void loadHost()
     {
-        Query query = host.orderByKey();
+        Query query = visitorIn.orderByKey();
 
         FirebaseRecyclerOptions<NewHostModel> options =
                 new FirebaseRecyclerOptions.Builder<NewHostModel>()

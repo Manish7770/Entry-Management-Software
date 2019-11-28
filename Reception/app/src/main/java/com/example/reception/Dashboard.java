@@ -74,7 +74,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         recyclerView.setNestedScrollingEnabled(false);
 
         database = FirebaseDatabase.getInstance();
-        visitorIn = database.getReference("Hosts");
+        visitorIn = database.getReference("Visitors-In");
         visitorOut=database.getReference("Visitors-Out");
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -245,7 +245,7 @@ public class Dashboard extends AppCompatActivity implements NavigationView.OnNav
         return true;
     }
 
-    void filter(String text){
+    void filter(String text){  //implements the search option
         List<VisitorModel> temp = new ArrayList();
         for(VisitorModel d: startlist){
             if((d.getVisitorName().toLowerCase()).contains(text.toLowerCase())||(d.getCheckInTime().toLowerCase()).contains(text.toLowerCase())||(d.getCheckOutTime().toLowerCase()).contains(text.toLowerCase())||(d.getHostName().toLowerCase()).contains(text.toLowerCase())||(d.getVisEmail().toLowerCase()).contains(text.toLowerCase())||(d.getVisPhone().toLowerCase()).contains(text.toLowerCase())){

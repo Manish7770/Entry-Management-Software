@@ -7,6 +7,7 @@ import java.util.Locale;
 
 public class CommonData {
 
+    //To get Date as String format when timestamp is given as parameter
     public static String getDate(long time)
     {
         Calendar calendar=Calendar.getInstance(Locale.ENGLISH);
@@ -14,6 +15,8 @@ public class CommonData {
         StringBuilder date=new StringBuilder(DateFormat.format("dd-MM-yyyy",calendar).toString());
         return date.toString();
     }
+
+    //To get Time as String format when timestamp is given as parameter
     public static String getTime(long time)
     {
         Calendar calendar=Calendar.getInstance(Locale.ENGLISH);

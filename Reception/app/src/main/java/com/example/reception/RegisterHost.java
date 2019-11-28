@@ -26,7 +26,7 @@ import info.hoang8f.widget.FButton;
 public class RegisterHost extends AppCompatActivity {
 
     FirebaseDatabase database;
-    DatabaseReference host,visitorOut;
+    DatabaseReference visitorIn,visitorOut;
 
     public EditText fullname,address,email,phonenumber;
     public FButton register;
@@ -43,7 +43,7 @@ public class RegisterHost extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         database = FirebaseDatabase.getInstance();
-        host = database.getReference("Hosts");
+        visitorIn = database.getReference("Visitors-In");
         visitorOut = database.getReference("Visitors-Out");
 
         email=findViewById(R.id.email);
@@ -70,7 +70,7 @@ public class RegisterHost extends AppCompatActivity {
                                 if (phonenumber.getText().toString().length() == 10) {
                                     final String email2=email.getText().toString().trim();
                                     final String md5email= md5(email2);
-                                    host.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    visitorIn.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             if(dataSnapshot.child(md5email).exists())
@@ -82,7 +82,7 @@ public class RegisterHost extends AppCompatActivity {
                                             else
                                             {
                                                 NewHostModel newmodel=new NewHostModel(fullname.getText().toString(),email2,address.getText().toString(),phonenumber.getText().toString());
-                                                host.child(md5email).setValue(newmodel);
+                                                visitorIn.child(md5email).setValue(newmodel);
                                                 visitorOut.child(md5email).setValue(newmodel);
                                                 mdialog.dismiss();
                                                 Toast.makeText(RegisterHost.this, "Host registered in the database", Toast.LENGTH_LONG).show();
