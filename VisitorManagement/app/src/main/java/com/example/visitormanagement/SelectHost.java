@@ -96,14 +96,14 @@ public class SelectHost extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     HostModel host3 = snapshot.getValue(HostModel.class);
                     if(snapshot.child("Visitors").exists())
-                        host3.setAvailable(0);
+                        host3.setAvailable(0); //Host is already busy in a meeting
                     else
                         host3.setAvailable(1);
                     startlist.add(host3);
                 }
 
                 if(startlist.isEmpty())
-                    nohost.setVisibility(View.VISIBLE);
+                    nohost.setVisibility(View.VISIBLE); //No host Available
                 else
                     nohost.setVisibility(View.INVISIBLE);
 
@@ -173,7 +173,7 @@ public class SelectHost extends AppCompatActivity {
         return true;
     }
 
-    void filter(String text){
+    void filter(String text){ //implements the search option
         List<HostModel> temp = new ArrayList();
         for(HostModel d: startlist){
             //or use .equal(text) with you want equal match

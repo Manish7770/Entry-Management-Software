@@ -78,6 +78,7 @@ public class VisitorOut extends AppCompatActivity {
 
                         final int[] found = {0};
                         final long[] checkintime = new long[1];
+                        // check for the token whether it exists in the database or not
                         host.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -134,6 +135,7 @@ public class VisitorOut extends AppCompatActivity {
                                                 String emailSubject="Regarding your Visit";
                                                 String[] arrnames=CommonData.visitordetails.getName().split(" ");
                                                 String emailBody="Dear "+arrnames[0]+",<br /><br />"+"    You have just checked out<br />Name : "+CommonData.visitordetails.getName()+"<br />Phone Number : "+CommonData.visitordetails.getPhone()+"<br />Check-in : "+checkindate+" "+checkintime2+"<br />Check-out : "+checkoutdate+" "+checkouttime+"<br />Host Name : "+CommonData.selectedhost.getName()+"<br />Visited Address : "+CommonData.selectedhost.getAddress()+"<br /><br />Thanks!";
+                                                //send email to the Visitor with complete details form
                                                 new SendMailTask(VisitorOut.this).execute(fromEmail[0],
                                                         fromPassword[0], toEmailList, emailSubject, emailBody);
                                                 Intent intent = new Intent(VisitorOut.this, MainActivity.class);

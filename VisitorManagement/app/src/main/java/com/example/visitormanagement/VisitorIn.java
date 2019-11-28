@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -130,7 +129,7 @@ public class VisitorIn extends AppCompatActivity {
                                         emailid = email.getText().toString();
                                         phone = phonenumber.getText().toString();
                                         hostname2 = hostname.getText().toString();
-                                        final String md5email = md5(CommonData.selectedhost.getEmail());
+                                        final String md5email = md5(CommonData.selectedhost.getEmail()); //hasded email using md5 to generate key
 
                                         final HashMap<String, Integer> map = new HashMap<>();
 
@@ -185,8 +184,10 @@ public class VisitorIn extends AppCompatActivity {
                                                                 String emailSubject = "Regarding New Visitor";
                                                                 String[] arrnames = hostname2.split(" ");
                                                                 String emailBody = "Dear " + arrnames[0] + ",<br /><br />" + "    You have a new Visitor <br />Name : " + name + "<br />Email-Id : " + emailid + "<br />Contact Number : " + phone + "<br /><br />Thanks!<br />";
+                                                                //send email to the Host to notify him regarding new visitor
                                                                 new SendMailTask(VisitorIn.this).execute(fromEmail[0],
                                                                         fromPassword[0], toEmailList, emailSubject, emailBody);
+
 
                                                                 emailSubject = "Regarding Check In";
                                                                 String[] arrnames2 = name.split(" ");
@@ -196,6 +197,7 @@ public class VisitorIn extends AppCompatActivity {
                                                                 String time = CommonData.getTime(currentTime);
 
                                                                 emailBody = "Dear " + arrnames2[0] + ",<br /><br />" + "    You have checked in at the " + CommonData.selectedhost.getAddress() + " on " + date + " at " + time + " ,<br />Token Number : " + finalNewtoken1 + ", use this while Check-out.<br />Host Name : " + hostname2 + "<br />Host Contact Number : " + CommonData.selectedhost.getPhone() + "<br /><br />Thanks!";
+                                                                //send email to the Visitor including his unique token to be used while check-out.
                                                                 new SendMailTask(VisitorIn.this).execute(fromEmail[0],
                                                                         fromPassword[0], toEmailList2, emailSubject, emailBody);
 
@@ -203,6 +205,7 @@ public class VisitorIn extends AppCompatActivity {
                                                                 sender += dataSnapshot.child("SenderName").getValue().toString();
                                                                 message += "Dear " + arrnames[0] + ",\n\n" + "You have a new Visitor \nName : " + name + "\nEmail-Id : " + emailid + "\nContact Number : " + phone + "\n\nThanks!\n";
                                                                 numbers += "91" + CommonData.selectedhost.getPhone();
+                                                                //send sms to the Host to notify him regarding new visitor
                                                                 new SendSmsTask().execute();
 
                                                                 Intent intent = new Intent(VisitorIn.this, MainActivity.class);
@@ -313,11 +316,8 @@ public class VisitorIn extends AppCompatActivity {
                     stringBuffer.append(line);
                 }
                 rd.close();
-
-                Log.i("errorsms",stringBuffer.toString());
             } catch (Exception e) {
                 System.out.println("Error SMS " + e);
-                Log.i("errorsms","Error " + e);
             }
             return null;
         }
