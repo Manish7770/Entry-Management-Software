@@ -27,9 +27,29 @@ There are two android applications :
 
 ## Application Flow
 
-* The admin adds a new host by accessing the **Register New Host** option from the Navigation drawer of Dashboard.
+* **Adding a new Host :** The admin adds a new host by accessing the **Register New Host** option from the Navigation drawer of Dashboard    
+  and enters the details. Then you can see the host is added by accessing the **All Host** option from Drawer
 
-Access the Navigation Drawer             |  Fill the required details and click the register button 
-:----------------------------------------------:|:----------------------------------------------:
- ![NavDrawer](Screenshots/Screenshot_navigation_drawer.png)  |   ![RegHost](Screenshots/Screenshot_registernewhost.png)
+Access the Navigation Drawer     |  Fill the required details and  | List of Hosts
+:-------------------------------------:|:---------------------------------:|:----------------------------------:
+| |**press the Register button** | | 
+ ![NavDrawer](Screenshots/Reception_Screenshots/Screenshot_navigationdrawer_reception.png)  |   ![RegHost](Screenshots/Reception_Screenshots/Screenshot_register_new_host.png) |  ![AllHost](Screenshots/Reception_Screenshots/Screenshot_register_new_host.png)
+ 
+ * **Check-in :** A visitor accesses the VisitorManagement application at the reception desk, clicks the Visitor-In button, enters the required details, selects a host by clicking the the search button and then check-in by pressing the **VISITOR IN** button
+ 
+ 
+ Click the Visitor In button     |  Fill the required details| Access the list of Hosts by 
+ |:-------------------------------------:|:---------------------------------:|:----------------------------------:|
+| | | **clicking the search button** |   
+ |![](Screenshots/VisitorMangment_Screenshots/Screenshot_mainActivity_vstmnger.png)  |   ![](Screenshots/VisitorMangment_Screenshots/Screenshot_VisitorIn1.png) |  ![](Screenshots/VisitorMangment_Screenshots/Screenshot_VisitorIn2.png)|
+ 
+The list of Hosts    | Press the Visitor In button | 
+ |:-------------------------------------:|:---------------------------------:|
+ | ![](Screenshots/VisitorMangment_Screenshots/Screenshot_20191128-191324_VisitorManagement.png)  |   ![](Screenshots/VisitorMangment_Screenshots/Screenshot_20191128-VisitorIn_filled.png) |
+ 
+ * This should trigger an **email** and an **SMS** to the host informing him of the details of the visitor and also should trigger an **email** to the visitor containing his unique token to be used for check-out.
+ 
+Email to the Host     |  SMS to the Host  | Email to the Visitor
+:-------------------------------------:|:---------------------------------:|:----------------------------------:
+ ![](Screenshots/VisitorMangment_Screenshots/Screenshot_sample_mail_toHost.png)  |   ![](Screenshots/VisitorMangment_Screenshots/Screenshot_sample_sms_toHost.png) |  ![](Screenshots/VisitorMangment_Screenshots/Screenshot_sample_mail_toVisitor.png)
  
