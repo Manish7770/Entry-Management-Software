@@ -38,7 +38,7 @@ import info.hoang8f.widget.FButton;
 public class VisitorIn extends AppCompatActivity {
 
     FirebaseDatabase database;
-    DatabaseReference host, emailprovider;
+    DatabaseReference visitorIn, emailprovider;
 
     public EditText fullname, email, phonenumber;
     public TextView hostname;
@@ -80,7 +80,7 @@ public class VisitorIn extends AppCompatActivity {
         phonenumber.setText(phone);
 
         database = FirebaseDatabase.getInstance();
-        host = database.getReference("Hosts");
+        visitorIn = database.getReference("Visitors-In");
         emailprovider = database.getReference("Mail-Provider");
 
         search.setOnClickListener(new View.OnClickListener() {
@@ -133,7 +133,7 @@ public class VisitorIn extends AppCompatActivity {
 
                                         final HashMap<String, Integer> map = new HashMap<>();
 
-                                        host.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        visitorIn.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -158,7 +158,7 @@ public class VisitorIn extends AppCompatActivity {
 
                                         final String finalNewtoken = newtoken;
                                         final String finalNewtoken1 = newtoken;
-                                        host.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        visitorIn.addListenerForSingleValueEvent(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                                 if (dataSnapshot.child(md5email).exists()) {
@@ -166,7 +166,7 @@ public class VisitorIn extends AppCompatActivity {
                                                     final long currentTime = System.currentTimeMillis();
                                                     String visitingkey = String.valueOf(currentTime);
                                                     VisitorModelOnly newentry = new VisitorModelOnly(name, emailid, phone, finalNewtoken);
-                                                    host.child(md5email).child("Visitors").child(visitingkey).setValue(newentry);
+                                                    visitorIn.child(md5email).child("Visitors").child(visitingkey).setValue(newentry);
                                                     Toast.makeText(VisitorIn.this, "Your entry has been recorded", Toast.LENGTH_LONG).show();
 
                                                     final String[] fromEmail = new String[1];

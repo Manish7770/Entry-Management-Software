@@ -30,7 +30,7 @@ import java.util.List;
 public class SelectHost extends AppCompatActivity {
 
     FirebaseDatabase database;
-    DatabaseReference host;
+    DatabaseReference visitorIn;
 
     public EditText findhost;
 
@@ -64,7 +64,7 @@ public class SelectHost extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
 
         database = FirebaseDatabase.getInstance();
-        host = database.getReference("Hosts");
+        visitorIn = database.getReference("Visitors-In");
 
         nohost=findViewById(R.id.nohost);
         progressBar=findViewById(R.id.progressBar2);
@@ -90,7 +90,7 @@ public class SelectHost extends AppCompatActivity {
 
         startlist = new ArrayList();
 
-        host.addListenerForSingleValueEvent(new ValueEventListener() {
+        visitorIn.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -112,7 +112,7 @@ public class SelectHost extends AppCompatActivity {
                 hostadapter = new HostViewAdapter(SelectHost.this,startlist);
                 recyclerView.setAdapter(hostadapter);
 
-                host.addValueEventListener(new ValueEventListener() {
+                visitorIn.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 

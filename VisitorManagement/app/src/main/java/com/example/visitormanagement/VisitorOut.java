@@ -34,7 +34,7 @@ import static com.example.visitormanagement.VisitorIn.md5;
 public class VisitorOut extends AppCompatActivity {
 
     FirebaseDatabase database;
-    DatabaseReference host,emailprovider;
+    DatabaseReference visitorIn,emailprovider;
 
     public EditText tokenId;
     public FButton visitoutbutton;
@@ -60,7 +60,7 @@ public class VisitorOut extends AppCompatActivity {
         tokenId.setText(tokennumber);
 
         database = FirebaseDatabase.getInstance();
-        host = database.getReference("Hosts");
+        visitorIn = database.getReference("Visitors-In");
         emailprovider=database.getReference("Mail-Provider");
 
         mdialog = new ProgressDialog(VisitorOut.this);
@@ -75,11 +75,10 @@ public class VisitorOut extends AppCompatActivity {
                 if ((!(tokenId.getText().toString().isEmpty())) && (!(tokenId.getText().toString().equals("")))) {
                         tokennumber=tokenId.getText().toString();
 
-
                         final int[] found = {0};
                         final long[] checkintime = new long[1];
                         // check for the token whether it exists in the database or not
-                        host.addListenerForSingleValueEvent(new ValueEventListener() {
+                        visitorIn.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for(DataSnapshot snapshot:dataSnapshot.getChildren()) {
@@ -117,7 +116,7 @@ public class VisitorOut extends AppCompatActivity {
 
                                     VisitedOutModel visited=new VisitedOutModel(CommonData.visitordetails.getName(),CommonData.visitordetails.getEmail(),CommonData.visitordetails.getPhone(),checkout);
                                     database.getReference("Visitors-Out").child(md5email).child("Visitors").child(intimestamp).setValue(visited);
-                                    host.child(md5email).child("Visitors").child(intimestamp).removeValue();
+                                    visitorIn.child(md5email).child("Visitors").child(intimestamp).removeValue();
 
                                     final String[] fromEmail = new String[1];
                                     final String[] fromPassword = new String[1];
