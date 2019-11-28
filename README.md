@@ -1,7 +1,7 @@
 # Innovaccer-SummerGeeks-SDE-Intern
 Innovaccer's SummerGeeks 2020 Assignment
 
-# Overview
+## Overview
 There are two android applications :
 * **Reception** : This application is handled by the receptionist (administrator). It serves four purposes:     
     * Dashboard -> To monitor all the visitors that are currently in the facility.   
@@ -24,6 +24,36 @@ There are two android applications :
 * As there can be multiple hosts, the admin can add new hosts.
 * On check-in, each visitor gets a unique token, which is used at the time of check-out.
 * As it is a public register meaning each visitor won't have to authenticate itself.
+
+## Database Structure
+```
+EntryManagementSoftware 
+ |
+ |__Visitors-In
+    |__HostId
+       |__Visitors
+           |__GeneratedId(Timestamp)
+              |__visitorEmail
+              |__visitorName
+              |__visitorPhone
+              |__visitorToken
+       |__hostAddress
+       |__hostEmail
+       |__hostName
+       |__hostPhone
+ |__Visitors-Out
+    |__HostId
+       |__Visitors
+           |__GeneratedId(Timestamp)
+              |__visitorCheckOutTime
+              |__visitorEmail
+              |__visitorName
+              |__visitorPhone
+       |__hostAddress
+       |__hostEmail
+       |__hostName
+       |__hostPhone
+ ```
 
 ## Application Flow
 
@@ -52,4 +82,20 @@ The list of Hosts    | Press the Visitor In button |
 Email to the Host     |  SMS to the Host  | Email to the Visitor
 :-------------------------------------:|:---------------------------------:|:----------------------------------:
  ![](Screenshots/VisitorMangment_Screenshots/Screenshot_sample_mail_toHost.png)  |   ![](Screenshots/VisitorMangment_Screenshots/Screenshot_sample_sms_toHost.png) |  ![](Screenshots/VisitorMangment_Screenshots/Screenshot_sample_mail_toVisitor.png)
+ 
+ * **Reception Dashboard :** This will show all the visitors that are currently in the facility.  
+     
+ ![](Screenshots/Reception_Screenshots/Screenshot_Dashboard.png)
+ 
+ * **Check-Out :** The visitor who wants to exit the facility, clicks the **VISITOR OUT** button and then enters his unique token-id and then clicks the Visitor-Out button.     
+     
+ ![](Screenshots/VisitorMangment_Screenshots/Screenshot_Visitor_Out.png)
+ 
+ * **Visitors Out :** If the admin wants to check the record of visitors who visited the facility, then he can click the **Visitors Out** button from the navigation drawer.    
+      
+![](Screenshots/Reception_Screenshots/Screenshot_Reception_Visitor_Out.png)
+
+
+ 
+ 
  
