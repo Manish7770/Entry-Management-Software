@@ -8,7 +8,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:187942514183:android:7c9f08d7b7ef14e9d7c4a2",
+        "mobilesdk_app_id": "1:187942514183:android:676defdf98b49cf9d7c4a2",
         "android_client_info": {
           "package_name": "com.example.reception"
         }
@@ -45,7 +45,7 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:187942514183:android:ecdae229d20ede67d7c4a2",
+        "mobilesdk_app_id": "1:187942514183:android:915802f218fdf3fcd7c4a2",
         "android_client_info": {
           "package_name": "com.example.visitormanagement"
         }

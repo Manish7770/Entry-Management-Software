@@ -112,8 +112,6 @@ public class VisitorIn extends AppCompatActivity {
         mdialog = new ProgressDialog(VisitorIn.this);
         mdialog.setMessage("Please Wait...");
 
-        final String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
         visitinbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +121,6 @@ public class VisitorIn extends AppCompatActivity {
                 if ((!(fullname.getText().toString().isEmpty())) && (!(fullname.getText().toString().equals("")))) {
 
                     if ((!(email.getText().toString().isEmpty())) && (!(email.getText().toString().equals("")))) {
-                        if (email.getText().toString().trim().matches(emailPattern)) {
                             if ((!(phonenumber.getText().toString().isEmpty())) && (!(phonenumber.getText().toString().equals("")))) {
                                 if (phonenumber.getText().toString().length() == 10) {
 
@@ -204,7 +201,7 @@ public class VisitorIn extends AppCompatActivity {
 
                                                                 apiKey += dataSnapshot.child("SmsAPI").getValue().toString();
                                                                 sender += dataSnapshot.child("SenderName").getValue().toString();
-                                                                message += "Dear " + arrnames[0] + ",\n\n" + "    You have a new Visitor \nName : " + name + "\nEmail-Id : " + emailid + "\nContact Number : " + phone + "\n\nThanks!\n";
+                                                                message += "Dear " + arrnames[0] + ",\n\n" + "You have a new Visitor \nName : " + name + "\nEmail-Id : " + emailid + "\nContact Number : " + phone + "\n\nThanks!\n";
                                                                 numbers += "91" + CommonData.selectedhost.getPhone();
                                                                 new SendSmsTask().execute();
 
@@ -241,10 +238,6 @@ public class VisitorIn extends AppCompatActivity {
                                 mdialog.dismiss();
                                 Toast.makeText(VisitorIn.this, "Enter your Phone Number", Toast.LENGTH_LONG).show();
                             }
-                        } else {
-                            mdialog.dismiss();
-                            Toast.makeText(VisitorIn.this, "Invalid email address", Toast.LENGTH_LONG).show();
-                        }
                     } else {
                         mdialog.dismiss();
                         Toast.makeText(VisitorIn.this, "Enter your Email Id", Toast.LENGTH_LONG).show();
