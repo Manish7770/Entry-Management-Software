@@ -7,7 +7,7 @@ Innovaccer's SummerGeeks 2020 Assignment
 * **[Approach](#approach)**    
 * **[Application Flow](#application-flow)**    
 * **[Application Installation](#application-installation)**    
-* **[Database Structure](database-structure)**   
+* **[Database Structure](#database-structure)**   
 
 ## Overview
 There are two android applications :
@@ -77,7 +77,7 @@ Email to the Host     |  SMS to the Host  | Email to the Visitor
 * Clone the repository and run the two applications seperately in your <b>Android Studio</b> and run it on your android device or an emulator.
 * You can also [generate an APK](https://stackoverflow.com/questions/16709848/build-unsigned-apk-file-with-android-studio) from <b>Android Studio</b> and install it on any Android phone you want.
 * You can also download APK from **Apks** folder of the project. Alternatively you can navigate to app/build/outputs/debug/app-debug.apk of both the applications and download the app.
-   
+    
 ## Database Structure
 ```
 EntryManagementSoftware 
