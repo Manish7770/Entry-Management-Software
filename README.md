@@ -1,6 +1,14 @@
 # Innovaccer-SummerGeeks-SDE-Intern
 Innovaccer's SummerGeeks 2020 Assignment
 
+## Contents
+* **[Overview](#overview)**    
+* **[Resources Used](#resources-used)**    
+* **[Approach](#approach)**    
+* **[Application Flow](#application-flow)**    
+* **[Application Installation](#application-installation)**    
+* **[Database Structure](database-structure)**   
+
 ## Overview
 There are two android applications :
 * **Reception** : This application is handled by the receptionist (administrator). It serves four purposes:     
@@ -24,36 +32,6 @@ There are two android applications :
 * As there can be multiple hosts, the admin can add new hosts.
 * On check-in, each visitor gets a unique token, which is used at the time of check-out.
 * As it is a public register meaning each visitor won't have to authenticate itself.
-
-## Database Structure
-```
-EntryManagementSoftware 
- |
- |__Visitors-In
-    |__HostId
-       |__Visitors
-           |__GeneratedId(Timestamp)
-              |__visitorEmail
-              |__visitorName
-              |__visitorPhone
-              |__visitorToken
-       |__hostAddress
-       |__hostEmail
-       |__hostName
-       |__hostPhone
- |__Visitors-Out
-    |__HostId
-       |__Visitors
-           |__GeneratedId(Timestamp)
-              |__visitorCheckOutTime
-              |__visitorEmail
-              |__visitorName
-              |__visitorPhone
-       |__hostAddress
-       |__hostEmail
-       |__hostName
-       |__hostPhone
- ```
 
 ## Application Flow
 
@@ -95,7 +73,39 @@ Email to the Host     |  SMS to the Host  | Email to the Visitor
       
 ![](Screenshots/Reception_Screenshots/Screenshot_Reception_Visitor_Out.png)
 
+ ## Application Installation
+* Clone the repository and run the two applications seperately in your <b>Android Studio</b> and run it on your android device or an emulator.
+* You can also [generate an APK](https://stackoverflow.com/questions/16709848/build-unsigned-apk-file-with-android-studio) from <b>Android Studio</b> and install it on any Android phone you want.
+* You can also download APK from **Apks** folder of the project. Alternatively you can navigate to app/build/outputs/debug/app-debug.apk of both the applications and download the app.
+   
+## Database Structure
+```
+EntryManagementSoftware 
+ |
+ |__Visitors-In
+    |__HostId
+       |__Visitors
+           |__GeneratedId(Timestamp)
+              |__visitorEmail
+              |__visitorName
+              |__visitorPhone
+              |__visitorToken
+       |__hostAddress
+       |__hostEmail
+       |__hostName
+       |__hostPhone
+ |__Visitors-Out
+    |__HostId
+       |__Visitors
+           |__GeneratedId(Timestamp)
+              |__visitorCheckOutTime
+              |__visitorEmail
+              |__visitorName
+              |__visitorPhone
+       |__hostAddress
+       |__hostEmail
+       |__hostName
+       |__hostPhone
+ ```
 
- 
- 
  
