@@ -1,5 +1,4 @@
-# Innovaccer-SummerGeeks-SDE-Intern
-Innovaccer's SummerGeeks 2020 Assignment
+# Visitor Management Application
 
 ## Contents
 * **[Overview](#overview)**    
